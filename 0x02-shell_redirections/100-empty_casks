@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -empty | tr -d "./" | tr " " "\n"
+find . -empty -prinf"%f/n"
