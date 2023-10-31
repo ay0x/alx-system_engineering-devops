@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-
+#Programs that are detached from the terminal and running
+#+ in the background are called daemons or processes, need to be managed
 
 if [ "${1}" == "start" ]
 then
