@@ -1,31 +1,25 @@
-# Install Nginx web server
+# Install Nginx web server with puppet
 
-exec { 'apt-update':
-  command => '/usr/bin/apt-get -y update',
-  path    => '/usr/bin:/usr/local/bin:/bin',
+exec { 'apt-get -y update':
+  path => '/usr/bin/:/usr/local/bin/:/bin/:/usr/sbin/'
 }
 
-exec { 'apt-install-nginx':
-  command => '/usr/bin/apt-get -y install nginx',
-  path    => '/usr/bin:/usr/local/bin:/bin',
+exec { 'apt-get -y install nginx':
+  path => '/usr/bin/:/usr/local/bin/:/bin/:/usr/sbin/'
 }
 
-exec { 'ufw-allow-nginx-http':
-  command => '/usr/sbin/ufw allow "Nginx HTTP"',
-  path    => '/usr/bin:/usr/local/bin:/bin',
+exec { 'ufw allow "Nginx HTTP"':
+  path => '/usr/bin/:/usr/local/bin/:/bin/:/usr/sbin/'
 }
 
-exec { 'create-index-file':
-  command => '/bin/echo "Hello World!" > /var/www/html/index.nginx-debian.html',
-  path    => '/usr/bin:/usr/local/bin:/bin',
+exec { 'echo "Hello World!" > /var/www/html/index.nginx-debian.html':
+  path => '/usr/bin/:/usr/local/bin/:/bin/:/usr/sbin/'
 }
 
-exec { 'configure-nginx':
-  command => '/bin/sed -i "/server_name _;/a \\n\\tlocation /redirect_me {\\n\\t\\trewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\\n\\t}" /etc/nginx/sites-available/default',
-  path    => '/usr/bin:/usr/local/bin:/bin',
+exec { 'sed -i "/server_name _;/a \\\n\\tlocation /redirect_me {\\n\\t\\trewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\\n\\t}" /etc/nginx/sites-available/default':
+  path => '/usr/bin/:/usr/local/bin/:/bin/:/usr/sbin/'
 }
 
-exec { 'start-nginx-service':
-  command => '/usr/sbin/service nginx start',
-  path    => '/usr/bin:/usr/local/bin:/bin',
+exec { 'service nginx start':
+  path => '/usr/bin/:/usr/local/bin/:/bin/:/usr/sbin/'
 }
