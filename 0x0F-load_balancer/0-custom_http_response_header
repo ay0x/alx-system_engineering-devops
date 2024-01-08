@@ -12,7 +12,7 @@ ufw allow 'Nginx HTTP'
 echo 'Hello World!' > /var/www/html/index.nginx-debian.html
 
 #Add a header to Nginx default config
-sudo sed -i "/listen [::]:80 default_server;/a \\\n\\tadd_header X-Served-By $HOSTNAME;" /etc/nginx/sites-available/default
+sudo sed -i "/server_name _;/a \\\n\\tadd_header X-Served-By $HOSTNAME;" /etc/nginx/sites-available/default
 
 #Find and replace redirection text in Nginx default config
 sudo sed -i "/server_name _;/a \\\n\\tlocation /redirect_me {\\n\\t\\trewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\\n\\t}" /etc/nginx/sites-available/default
