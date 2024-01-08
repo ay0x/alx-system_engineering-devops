@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#Installs HAProxy loadbalancer
+
+#Install HAProxy PPA (Personal Package Archive)
+sudo apt-get -y update
+sudo apt-get install -y --no-install-recommends software-properties-common
+sudo add-apt-repository -y ppa:vbernat/haproxy-2.9
+sudo apt-get install -y haproxy=2.9.\*
+
+# Install HAProxy
+sudo apt-get -y install haproxy
+sudo sed -i -e '$aENABLED=1\n' /etc/default/haproxy
+sudo sed -i -e '$a\\nlisten http-in\n\tbind :80\n\tbalance roundrobin\n\tserver 281557-web-01 18.210.18.218:80 check\n\tserver 281557-web-02 100.24.255.177:80 check\n' /etc/haproxy/haproxy.cfg
+sudo service haproxy restart
