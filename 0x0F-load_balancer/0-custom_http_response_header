@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# installs nginx and configures it on a remote server
+
+#Update software package and install Nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
+
+#Allow Nginx port 80 through the firewall
+ufw allow 'Nginx HTTP'
+
+#Write text to Nginx index file
+echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+
+#Add a header to Nginx default config
+sudo sed -i "/default_server;/a \\\n\\tadd_header X-Served-By $HOSTNAME;" /etc/nginx/sites-available/default
+
+#Find and replace redirection text in Nginx default config
+sudo sed -i "/server_name _;/a \\\n\\tlocation /redirect_me {\\n\\t\\trewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\\n\\t}" /etc/nginx/sites-available/default
+
+#Write text to Nginx 404 page using tee command
+echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/404.html
+
+#Find and replace 404 text in Nginx default config
+sudo sed -i "/server_name _;/a \\\n\\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\troot /usr/share/nginx/html;\n\t\tinternal;\n\t}" /etc/nginx/sites-available/default
+
+#Restart Nginx server
+sudo service nginx restart
